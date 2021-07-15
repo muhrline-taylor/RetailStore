@@ -1,0 +1,4 @@
+07/15/2021 - 
+	Lots of issues with with data being passed into the backend today. Resolved, but the cause was type casting. 
+	React hooks were not storing data in a way Java could understand. Fixed by passing the store_id as a 
+	@PathVariable and making relations manually on Spring Boot.

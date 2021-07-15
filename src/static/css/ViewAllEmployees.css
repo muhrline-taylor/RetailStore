@@ -1,0 +1,30 @@
+.viewAllEmployees {
+    height: 100%;
+}
+
+.viewAllEmployees__buttonContainer {
+    height: 10%;
+    padding: 1% 30% 0 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.viewAllEmployees__button {
+    text-decoration: none;
+    color: white;
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 12px;
+    font-size: 0.84vw;
+}
+
+.viewAllEmployees__table {
+    height: 87%;
+}
+
+.center {
+    text-align: center;
+}

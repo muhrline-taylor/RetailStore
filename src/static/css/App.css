@@ -1,0 +1,13 @@
+.app {
+  height: 100vh;
+  width: 100vw;
+}
+
+.app__header {
+  height: 20%;
+  background-color: black;
+}
+
+.app__body {
+  height: 80%;
+}

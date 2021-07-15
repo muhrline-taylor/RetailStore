@@ -1,0 +1,45 @@
+.defaultHeader {
+    height: 100%;
+    width: 100%;
+}
+
+.defaultHeader__top {
+    height: 60%;
+    display: flex;
+    align-items: center;
+    padding-left: 5%;
+}
+
+.defaultHeader__top > h1 {
+    background: -webkit-linear-gradient( rgba(255,255,255,1), rgb(68, 68, 68));
+    font-size: 3vw;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.defaultHeader__bottom {
+    height: 40%;
+}
+
+.defaultHeader__bottomButtonContainer {
+    height: 100%;
+    width: 50%;
+    display: flex;
+}
+
+.defaultHeader__bottomButton {
+    width: 15%;
+    height: 100%;
+    font-size: 0.84vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-decoration: none;
+    color: rgba(245, 245, 245, 0.774);
+    border-right: 1px solid rgba(211, 211, 211, 0.15);
+}
+
+.defaultHeader__bottomButton:hover {
+    background: rgb(46,46,46);
+    background: radial-gradient(circle, rgba(46, 46, 46, 0.5) 0%, rgba(6,6,6,0.5) 100%);
+}
