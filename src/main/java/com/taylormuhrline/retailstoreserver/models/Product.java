@@ -2,6 +2,7 @@ package com.taylormuhrline.retailstoreserver.models;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -45,6 +48,15 @@ public class Product {
 	@JoinColumn(name="store_id")
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	private Store store;
+	
+	@ManyToOne(fetch=FetchType.LAZY, optional=true)
+	@JoinColumn(name="customer_id")
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
+	private Customer customer;
+	
+	@ManyToMany(mappedBy="products")
+	Set<Category> categories;
+	
 	
 	
 	@Column(updatable=false)
@@ -106,6 +118,13 @@ public class Product {
 	public Store getStore() {
 		return store;
 	}
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
 	public void setStore(Store store) {
 		this.store = store;
 	}
@@ -121,6 +140,14 @@ public class Product {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
 	@PrePersist
     protected void onCreate(){
         this.createdAt = new Date();

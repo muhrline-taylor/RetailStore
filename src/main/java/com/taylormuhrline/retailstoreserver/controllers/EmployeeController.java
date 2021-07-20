@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.taylormuhrline.retailstoreserver.models.Customer;
 import com.taylormuhrline.retailstoreserver.models.Employee;
 import com.taylormuhrline.retailstoreserver.models.Store;
+import com.taylormuhrline.retailstoreserver.repositories.CustomerRepository;
 import com.taylormuhrline.retailstoreserver.repositories.EmployeeRepository;
 import com.taylormuhrline.retailstoreserver.repositories.StoreRepository;
 
@@ -32,6 +34,9 @@ public class EmployeeController {
 	
 	@Autowired
 	StoreRepository storeRepository;
+	
+	@Autowired
+	CustomerRepository customerRepository;
 	
 	
 	
@@ -84,6 +89,12 @@ public class EmployeeController {
 		Employee savedEmployee = employeeRepository.save(newEmployee);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		            .buildAndExpand(savedEmployee.getId()).toUri();
+		
+		Customer customer = new Customer(
+					rawEmployee.getFname(),
+					rawEmployee.getLname()
+				);
+		customerRepository.save(customer);
 		
 		return ResponseEntity.created(location).body(savedEmployee);
 		
