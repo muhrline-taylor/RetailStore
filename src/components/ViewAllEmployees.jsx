@@ -50,7 +50,7 @@ function ViewAllEmployees() {
                         employees ?
                         employees.map((employee, k) => (
                             <tr>
-                                <td className="center">{employee.fname}</td>
+                                <td className="center"><a href={`/employees/${employee.id}/edit`}>{employee.fname}</a></td>
                                 <td className="center">{employee.lname}</td>
                                 <td className="center">{employee.gender}</td>
                                 <td className="center">

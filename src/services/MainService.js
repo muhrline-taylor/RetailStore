@@ -3,6 +3,7 @@ import axios from 'axios';
 const STORE_API_BASE_URL = "http://localhost:8080/api/v1/stores";
 const EMPLOYEE_API_BASE_URL = "http://localhost:8080/api/v1/employees";
 const PRODUCT_API_BASE_URL = "http://localhost:8080/api/v1/products";
+const CUSTOMER_API_BASE_URL = "http://localhost:8080/api/v1/customers";
 
 const FORM_DATA_CONFIG = {
     headers: {
@@ -115,6 +116,26 @@ class MainService {
             // DELETE
             deleteProduct(id){
                 return axios.delete(`${PRODUCT_API_BASE_URL}/${id}`);
+            }
+
+            // BUY PRODUCT BY CUSTOMER ID
+            buyProduct(product_id, customer_id){
+                console.log("into buyProduct()");
+                console.log(customer_id);
+                return axios.post(`${PRODUCT_API_BASE_URL}/${product_id}/buy`, customer_id)
+            }
+
+
+        // CUSTOMERS -------------------------------- //
+
+            // GET ALL
+            getAllCustomers(){
+                return axios.get(`${CUSTOMER_API_BASE_URL}/`);
+            }
+
+            // CREATE
+            createCustomer(reqBody){
+                return axios.post(`${CUSTOMER_API_BASE_URL}/new`, reqBody);
             }
 
 

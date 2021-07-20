@@ -31,7 +31,7 @@ function CreateEmployee() {
         console.log(employeeForm);
         console.log(storeId);
         MainService.createEmployee(employeeForm, storeId);
-        
+        history.push("/");
     }
 
     useEffect(() => {

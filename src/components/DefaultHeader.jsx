@@ -27,6 +27,18 @@ function DefaultHeader() {
                     >
                         Products
                     </a>
+                    <a 
+                        href="/customers"
+                        className="defaultHeader__bottomButton"
+                    >
+                        Customers
+                    </a>
+                    <a 
+                        href="/categories"
+                        className="defaultHeader__bottomButton"
+                    >
+                        Item Categories
+                    </a>
                 </div>
             </div>
             

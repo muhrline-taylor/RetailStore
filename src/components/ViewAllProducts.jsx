@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import MainService from '../services/MainService';
 import "../static/css/ViewAllProducts.css";
 
 function ViewAllProducts() {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        MainService.getAllProducts()
+            .then(res => {
+                setProducts(res.data.content)
+            })
+    },[])
+
+
+
     return (
         <div className="viewAllProducts">
             <div className="viewAllProducts__buttonContainer">
@@ -27,31 +39,29 @@ function ViewAllProducts() {
             
             </div>
             <div className="viewAllProducts__table">
-                {/* <table style={{width: "100%", paddingTop: "1%"}}>
+                <table style={{width: "100%", paddingTop: "1%"}}>
                     <tr>
                         <th>Name</th>
-                        <th>Address</th>
-                        <th>Employees</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Store</th>
                         <th>Actions</th>
                     </tr>
                     {
-                        stores ?
-                        stores.map((store, k) => (
+                        products ?
+                        products.map((product, k) => (
                             <tr>
-                                <td className="center">{store.name}</td>
-                                <td className="center">{store.address}</td>
+                                <td className="center">{product.name}</td>
+                                <td className="center">{product.category}</td>
+                                <td className="center">{product.price}</td>
+                                <td className="center"></td>
                                 <td className="center">
-                                    {
-                                        store.employees.map((employee, key) => {
-                                            return `${employee.fname} ${employee.lname}, `
-                                        })
-                                    }
+                                    <a href={`/products/${product.id}/buy`}>BUY</a>
                                 </td>
-                                <td className="center">Actions</td>
                             </tr>
                         )):""
                     }
-                </table> */}
+                </table>
             </div>
         </div>
     )
