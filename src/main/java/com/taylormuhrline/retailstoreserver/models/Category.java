@@ -3,8 +3,10 @@ package com.taylormuhrline.retailstoreserver.models;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,12 +29,7 @@ public class Category {
 	
 	private String name;
 	
-	@ManyToMany
-	@JoinTable(
-				name="product_category",
-				joinColumns=@JoinColumn(name="category_id"),
-				inverseJoinColumns=@JoinColumn(name="product_id")
-			)
+	@ManyToMany(mappedBy="categories", cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	Set<Product> products;
 	
 	

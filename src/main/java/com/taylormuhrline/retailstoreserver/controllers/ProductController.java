@@ -1,6 +1,7 @@
 package com.taylormuhrline.retailstoreserver.controllers;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -73,16 +73,17 @@ public class ProductController {
 					@PathVariable Long store_id
 				){
 			
-			System.out.println("into createProduct()");
-			System.out.println(product.getName());
 			Optional<Store> optionalStore = storeRepository.findById(store_id);
-			System.out.println(optionalStore);
+			
 			if(!optionalStore.isPresent()) {
 				return ResponseEntity.unprocessableEntity().build();
 			}
 
 			
 			Store store = optionalStore.get();
+			
+			
+			
 			Product newProduct = new Product(
 						product.getName(),
 						product.getCategory(),
@@ -90,7 +91,7 @@ public class ProductController {
 						store
 					);
 			
-			System.out.println("created newProduct");
+			System.out.println("created newProduct successfully");
 			
 			Product savedProduct = productRepository.save(newProduct);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -101,29 +102,87 @@ public class ProductController {
 		}
 		
 		// CREATE TESTING
-//		@PostMapping("/new/testing")
-//		public ResponseEntity<Product> createProductTesting(@RequestParam("category")String category){
-//			// block
-//			
-//						Category foundCategory;
-//						List<Category> categories = categoryRepository.findAll();
-//						for(int i=0;i<categories.size();i++) {
-//							if(category == categories.get(i).getName()) {
-//								foundCategory.equals(categories.get(i));
-//							}
-//						}
-//						
-//						if(foundCategory.getId() != null) {
-//							System.out.println("category found!");
-//						} else {
-//							System.out.println("category not found!");
-//						}
-//						
-//						return ResponseEntity.noContent().build();
-//						
-//						// end block
-//			
-//		}
+		@PostMapping("/new/{store_id}/testing")
+		public ResponseEntity<Product> createProductTesting(
+					@RequestBody Product product,
+					@PathVariable Long store_id
+				){
+			// block
+						
+						System.out.println("into createProductTesting");
+					
+						Category foundCategory = null;
+						List<Category> categories = categoryRepository.findAll();
+						for(int i=0;i<categories.size();i++) {
+							if(product.getCategory().toString().equals(categories.get(i).getName().toString())) {
+								foundCategory = categories.get(i);
+								System.out.println("category found");
+							} else {
+								System.out.println("category not found");
+							}
+							
+						}
+						Optional<Store> optionalStore = storeRepository.findById(store_id);
+						if(!optionalStore.isPresent()) {
+							return ResponseEntity.unprocessableEntity().build();
+						}
+						
+						
+
+						
+						Store store = optionalStore.get();
+						Product newProduct = new Product(
+									product.getName(),
+									product.getCategory(),
+									product.getPrice(),
+									store
+								);
+						if(foundCategory != null) {
+							// create product with foundCategory
+							
+							Set<Category> newProductCategories = new HashSet<Category>();
+							newProductCategories.add(foundCategory);
+							newProduct.setCategories(newProductCategories);
+							Product savedProduct = productRepository.save(newProduct);
+							URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+							            .buildAndExpand(savedProduct.getId()).toUri();
+							Set<Product> tempProducts = foundCategory.getProducts();
+							tempProducts.add(newProduct);
+							foundCategory.setProducts(tempProducts);
+							categoryRepository.save(foundCategory);
+							
+							return ResponseEntity.created(location).body(savedProduct);
+							
+						} else {
+							// create product with new category
+							System.out.println("into create product with new category");
+							Category newCategory = new Category(product.getCategory());
+							
+							Set<Category> categoriesHashSet = new HashSet<Category>();
+							Set<Product> productsHashSet = new HashSet<Product>();
+							
+							categoriesHashSet.add(newCategory);
+							productsHashSet.add(newProduct);
+							
+							newProduct.setCategories(categoriesHashSet);
+							newCategory.setProducts(productsHashSet);
+							
+							Product savedProduct = productRepository.save(newProduct);
+							Category savedCategory= categoryRepository.save(newCategory);
+							
+							URI product_location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+						            .buildAndExpand(savedProduct.getId()).toUri();
+							
+							URI category_location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+						            .buildAndExpand(savedCategory.getId()).toUri();
+							
+							return ResponseEntity.created(product_location).body(savedProduct);
+							
+						}
+						
+						// end block
+			
+		}
 		
 		// DELETE BY ID
 		@DeleteMapping("/{id}")

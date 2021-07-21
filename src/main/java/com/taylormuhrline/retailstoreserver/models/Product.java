@@ -2,8 +2,10 @@ package com.taylormuhrline.retailstoreserver.models;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,7 +56,11 @@ public class Product {
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	private Customer customer;
 	
-	@ManyToMany(mappedBy="products")
+	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	@JoinTable(name="products_categories",
+				joinColumns= {@JoinColumn(name="product_id")},
+				inverseJoinColumns = {@JoinColumn(name="category_id")}
+			)
 	Set<Category> categories;
 	
 	
@@ -75,10 +81,12 @@ public class Product {
 			@DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 5, fraction = 2) BigDecimal price,
 			Store store) {
 		super();
+
 		this.name = name;
 		this.category = category;
 		this.price = price;
 		this.store = store;
+		this.categories = new HashSet<Category>();
 	}
 
 	public Product(@Min(2) String name, String category,
@@ -88,6 +96,23 @@ public class Product {
 		this.category = category;
 		this.price = price;
 	}
+	
+	public Product(@Min(2) String name, String category,
+			@DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 5, fraction = 2) BigDecimal price,
+			Store store, Category thisCategory) {
+		super();
+		
+		Set<Category> categories = new HashSet<Category>();
+		categories.add(thisCategory);
+		
+		this.name = name;
+		this.category = category;
+		this.price = price;
+		this.store = store;
+		this.categories = categories;
+	}
+	
+	
 
 	// GETTERS AND SETTERS --------------------------------------- //
     
@@ -103,6 +128,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -118,13 +147,7 @@ public class Product {
 	public Store getStore() {
 		return store;
 	}
-	public Set<Category> getCategories() {
-		return categories;
-	}
 
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
 	public void setStore(Store store) {
 		this.store = store;
 	}
