@@ -32,7 +32,7 @@ function CreateProduct() {
 
     const submitHandler = e => {
         e.preventDefault();
-        MainService.createProduct(productForm, storeId);
+        MainService.createProductTesting(productForm, storeId);
         history.push("/");
     }
 

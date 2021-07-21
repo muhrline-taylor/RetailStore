@@ -21,6 +21,7 @@ import BuyProduct from "./components/BuyProduct";
 import ViewAllCategories from "./components/ViewAllCategories";
 import ViewOneEmployee from "./components/ViewOneEmployee";
 import EditEmployee from "./components/EditEmployee";
+import CreateCategory from "./components/CreateCategory";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route exact path="/customers/create" component={CreateCustomer}></Route>
 
           <Route exact path="/categories" component={ViewAllCategories}></Route>
+          <Route exact path="/categories/create" component={CreateCategory}></Route>
 
         </Router>
       </div>

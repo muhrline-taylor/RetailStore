@@ -7,7 +7,7 @@ function ViewAllCategories() {
             <div className="viewAllStores__buttonContainer">
                 
                 <a 
-                    href="/customers/create"
+                    href="/categories/create"
                     className="viewAllStores__button"
                     style={{
                         backgroundColor: "green"
@@ -16,7 +16,7 @@ function ViewAllCategories() {
                     Create
                 </a>
                 <a 
-                    href="/customers/delete"
+                    href="/categories/delete"
                     className="viewAllStores__button"
                     style={{
                         backgroundColor: "red"

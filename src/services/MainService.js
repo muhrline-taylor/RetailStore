@@ -4,6 +4,7 @@ const STORE_API_BASE_URL = "http://localhost:8080/api/v1/stores";
 const EMPLOYEE_API_BASE_URL = "http://localhost:8080/api/v1/employees";
 const PRODUCT_API_BASE_URL = "http://localhost:8080/api/v1/products";
 const CUSTOMER_API_BASE_URL = "http://localhost:8080/api/v1/customers";
+const CATEGORY_API_BASE_URL = "http://localhost:8080/api/v1/categories";
 
 const FORM_DATA_CONFIG = {
     headers: {
@@ -113,6 +114,16 @@ class MainService {
                 return axios.post(`${PRODUCT_API_BASE_URL}/new/${storeId}`, reqBody);
             }
 
+            // CREATE TESTING
+            createProductTesting(reqBody, storeId){
+                var newReqBody = reqBody;
+                // this.getStoreById(storeId)
+                //     .then(res => {
+                //         newReqBody['store'] = res.data;
+                //     })
+                return axios.post(`${PRODUCT_API_BASE_URL}/new/${storeId}/testing`, reqBody);
+            }
+
             // DELETE
             deleteProduct(id){
                 return axios.delete(`${PRODUCT_API_BASE_URL}/${id}`);
@@ -136,6 +147,21 @@ class MainService {
             // CREATE
             createCustomer(reqBody){
                 return axios.post(`${CUSTOMER_API_BASE_URL}/new`, reqBody);
+            }
+
+
+
+
+        // CATEGORIES ---------------------------------------- //
+            
+            // get all
+            getAllCategories(){
+                return axios.get(`${CATEGORY_API_BASE_URL}/`);
+            }
+
+            // create
+            createCategory(reqBody){
+                return axios.post(`${CATEGORY_API_BASE_URL}/new`, reqBody);
             }
 
 
